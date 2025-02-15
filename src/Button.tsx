@@ -1,7 +1,10 @@
 type Props = {
     title: string
+    onClickHandler?: () => void // функция без return, void - пустота
 }
 
-export function Button({ title }: Props) {
-    return <button>{title}</button>
+export const Button = ({ title, onClickHandler }: Props) => {
+    return (
+        <button onClick={onClickHandler}>{title}</button>
+    )
 }
