@@ -32,30 +32,15 @@ function App() {
     }
 
     // UI: // порядок отображения данных
-    const [filter, setFilter] = useState<FilterValues>('all')
-
-    const changeFilter = (newFilterValue: FilterValues) => {
-        setFilter(newFilterValue)
-    }
-
-    let tasksForTodolist = tasks
-
-    if(filter === 'active'){
-        tasksForTodolist = tasks.filter(t => t.isDone === false)
-    }
-    if(filter === 'completed') {
-        tasksForTodolist = tasks.filter(t => t.isDone === true)
-    }
-
 
     return (
         <div className="app">
             <Todolist
                 title={todolistTitle}
-                tasks={tasksForTodolist}
+                tasks={tasks}
                 deleteTask={deleteTask}
                 createTask={createTask}
-                changeFilter={changeFilter}
+                // changeFilter={changeFilter}
             />
         </div>
     )
