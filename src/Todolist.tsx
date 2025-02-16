@@ -1,22 +1,25 @@
 import {Button} from "./Button.tsx";
 import {FilterValues} from "./App.tsx";
+import {useRef} from "react";
 
 type TodolistPropsType = {          // тип, который описывает пропсы компонента тудулист
     title: string;
     tasks: Array<TaskType>;
-    deleteTask: (taskId: number) => void;
+    deleteTask: (taskId: string) => void;
     changeFilter: (newFilterValue: FilterValues) => void;
+    createTask: (title: string) => void;
 }
 
 export type TaskType = {
-    id: number;
+    id: string;
     title: string;
     isDone: boolean;
 }
 
-export const Todolist = ({title, tasks, deleteTask, changeFilter}: TodolistPropsType) => {
+export const Todolist = ({title, tasks, deleteTask, createTask, changeFilter}: TodolistPropsType) => {
     // const {title, tasks} = props   // деструктурирующее присваивание
 
+    const inputRef = useRef<HTMLInputElement>(null);
 
 // условный рендеринг (отоброжаем тот или иной элемент разметки в зависимости от какого-то условия)
     const tasksList = tasks.length === 0   //проверяем есть ли данные в массиве, если равна 0,
@@ -50,8 +53,13 @@ export const Todolist = ({title, tasks, deleteTask, changeFilter}: TodolistProps
         <div>
             <h3>{title}</h3>
             <div>
-                <input/>
-                <Button title={'x'}/>
+                <input ref={inputRef}/>
+                <Button title={'x'} onClickHandler={()=> {
+                    if(inputRef.current) {
+                        createTask(inputRef.current.value)
+                        inputRef.current.value = ''
+                    }
+                }}/>
             </div>
             {tasksList}
             <div>
