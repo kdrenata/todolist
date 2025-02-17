@@ -4,5 +4,64 @@
 }
 
 .app > div {
-  margin-right: 50px;
+  margin-right: 5px;
+}
+
+#root {
+  height: 100%;
+  margin: 50px 100px;
+  /*border: 1px solid #585a45;*/
+  background-color: #afab8e;
+  box-shadow: 0 4px 10px 0 #353a21;
+  border-radius: 10px;
+  padding: 5px;
+}
+button {
+  background-color: #afab8e;
+  border: 2px solid rgba(105, 113, 92, 0.85);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  color: #333;
+  padding: 2px 4px;
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+
+  &:hover {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(255, 255, 255, 0.6);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+}
+.filter-btn-active {
+  background-color: #cdcdbc;
+  color: #23251b;
+  font-weight: bold;
+  border: 2px solid rgba(105, 113, 92, 0.85);
+
+}
+
+ul {
+  list-style-type: none;
+}
+input {
+  background-color: #e1e3e0;
+  border: 2px solid #677757;
+  border-radius: 5px;
+  outline: 1px solid #a0a19e;
+}
+
+.task-done {
+  color: rgba(23, 28, 11, 0.63);
+  text-decoration: line-through;
+}
+.task {
+  font-weight: bold;
+}
+.taskInputError {
+  outline: none;
+  border: 2px solid #a60505
 }

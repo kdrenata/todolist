@@ -30,17 +30,37 @@ function App() {
         const nextState: Array<TaskType> = [...tasks, newTask]
         setTasks(nextState)
     }
+    const changeTaskStatus = (taskId: string, newStatus: boolean) => {      // реализация задачи смены статуса
+        const nextState: Array<TaskType> = tasks.map(task => task.id === taskId ? {...task, isDone: newStatus} : task);
+        setTasks(nextState)
+    }
 
     // UI: // порядок отображения данных
+    const [filter, setFilter] = useState<FilterValues>('all')
+
+    const changeFilter = (newFilterValue: FilterValues) => {
+        setFilter(newFilterValue)
+    }
+
+    let tasksForTodolist = tasks
+    if(filter === 'active'){
+        tasksForTodolist = tasks.filter(t => t.isDone === false)
+    }
+    if(filter === 'completed') {
+        tasksForTodolist = tasks.filter(t => t.isDone === true)
+    }
+
 
     return (
         <div className="app">
             <Todolist
                 title={todolistTitle}
-                tasks={tasks}
+                tasks={tasksForTodolist}
+                filter={filter}
                 deleteTask={deleteTask}
                 createTask={createTask}
-                // changeFilter={changeFilter}
+                changeFilter={changeFilter}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     )
