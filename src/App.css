@@ -5,6 +5,7 @@
 
 .app > div {
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 #root {
@@ -22,7 +23,7 @@ button {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(255, 255, 255, 0.6);
   border-radius: 5px;
   color: #333;
-  padding: 2px 4px;
+  padding: 1px 5px;
   margin: 5px;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -37,7 +38,7 @@ button {
   }
 }
 .filter-btn-active {
-  background-color: #cdcdbc;
+  background-color: #dadaca;
   color: #23251b;
   font-weight: bold;
   border: 2px solid rgba(105, 113, 92, 0.85);
