@@ -19,7 +19,7 @@ function App() {
         {id: v1(), title: 'ReactJS', isDone: false},
     ])
     const deleteTask = (taskId: string) => {
-        setTasks(tasks.filter(t => t.id !== taskId))  // все таски кроме той которую нужно удалить
+        setTasks(tasks.filter(t => t.id !== taskId))  // filter пропусти те таски, id которых не равна id, которую надо удалить
     }
     const createTask = (title: string) => {
         const newTask: TaskType = {

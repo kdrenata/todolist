@@ -1,6 +1,6 @@
 import {Button} from "./Button.tsx";
 import {FilterValues} from "./App.tsx";
-import {useState, KeyboardEvent} from "react";
+import {useState, KeyboardEvent, ChangeEvent} from "react";
 
 type TodolistPropsType = {          // тип, который описывает пропсы компонента тудулист
     title: string;
@@ -42,7 +42,7 @@ export const Todolist = ({
                 return (
                     <li key={task.id} className={task.isDone ? 'task-done' : 'task'}>
                         <input
-                            onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)}
+                            onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)} // элемент с которым произошло событие
                             type="checkbox"
                             checked={task.isDone}/>
                         <span>{task.title}</span>
@@ -80,7 +80,10 @@ export const Todolist = ({
             createTaskOnClickHandler()
         }
     }
-
+    const createTaskOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false)
+        setTaskTitle(e.currentTarget.value)
+    }
 
     return (
         <div>
@@ -89,11 +92,8 @@ export const Todolist = ({
                 <input //  получает содержимое локального state(a)
                     value={taskTitle}
                     placeholder='max length is 15 charters'
-                    onChange={(e) => {
-                        error && setError(false)
-                        setTaskTitle(e.currentTarget.value)
-                    }} //все что польз вводит, поручаем передавать в локальный state
-                    onKeyDown={createTaskOnKeyDownHandler}
+                    onChange={createTaskOnChangeHandler} //все что польз вводит, поручаем передавать в локальный state
+                    onKeyDown={createTaskOnKeyDownHandler} //клавиша нажата, но не отпущена вверх
                     className={error ? 'taskInputError' : ''}
                 />
                 <Button title={'+'}
