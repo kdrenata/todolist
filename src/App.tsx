@@ -2,6 +2,7 @@ import './App.css'
 import {TaskType, Todolist} from "./todolist/Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm.tsx";
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
@@ -74,6 +75,14 @@ function App() {
 
     }
 
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistsId: string) => {
+        const nextState: TasksStateType = {
+            ...tasks,
+            [todolistsId]: tasks[todolistsId].map(task => task.id === taskId ? {...task, title: newTitle} : task)
+        }
+        setTasks(nextState)
+    }
+
     const changeTodolistFilter = (newFilterValue: FilterValues, todolistsId: string) => {
 
         const nextState: Array<TodolistType> = todolists
@@ -91,6 +100,24 @@ function App() {
         // delete nextTasksState[todolistsId]
         // setTasks(nextTasksState)
     }
+
+
+    const creatTodolist = (newTodoTitle: string) => {
+        const newTodolistId = v1()
+        const nextState: Array<TodolistType> = [...todolists, {id: newTodolistId, title: newTodoTitle, filter: 'all'}]
+        setTodolists(nextState)
+
+        const nextTasksState: TasksStateType = {...tasks, [newTodolistId]: []}
+        setTasks(nextTasksState)
+    }
+
+    const changeTodolistTitle = (newTitle: string, todolistsId: string) => {
+        const nextState: Array<TodolistType> = todolists
+            .map(tl => tl.id === todolistsId ? {...tl, title: newTitle} : tl)
+        setTodolists(nextState)
+    }
+
+
 // UI: // порядок отображения данных
 
     const todolistsComponents = todolists.map(tl => {
@@ -117,6 +144,9 @@ function App() {
 
                 changeTodolistFilter={changeTodolistFilter}
                 deleteTodolist={deleteTodolist}
+                changeTaskTitle={changeTaskTitle}
+                changeTodolistTitle={changeTodolistTitle}
+
             />
         )
     })
@@ -124,6 +154,7 @@ function App() {
 
     return (
         <div className="app">
+            <AddItemForm createItem={creatTodolist} maxTitleLength={15}/>
             {todolistsComponents}
         </div>
     )
