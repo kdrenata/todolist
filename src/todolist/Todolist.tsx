@@ -1,15 +1,18 @@
-import {Button} from "./Button.tsx";
-import {FilterValues} from "./App.tsx";
+import {Button} from "../Button.tsx";
+import {FilterValues} from "../App.tsx";
 import {useState, KeyboardEvent, ChangeEvent} from "react";
+import style from './Todolist.module.css'
 
 type TodolistPropsType = {          // тип, который описывает пропсы компонента тудулист
+    todolistId: string;
     title: string;
     tasks: Array<TaskType>;
     filter?: FilterValues;
-    deleteTask: (taskId: string) => void;
-    changeFilter: (newFilterValue: FilterValues) => void;
-    createTask: (title: string) => void;
-    changeTaskStatus: (taskId: string, newStatus: boolean) => void;
+
+    deleteTask: (taskId: string, todolistId: string) => void;
+    createTask: (title: string, todolistId: string) => void;
+    changeTaskStatus: (taskId: string, newStatus: boolean, todolistId: string) => void;
+    changeTodolistFilter: (newFilterValue: FilterValues, todolistId: string) => void;
 }
 
 export type TaskType = {
@@ -19,13 +22,14 @@ export type TaskType = {
 }
 
 export const Todolist = ({
+                             todolistId,
                              title,
                              tasks,
                              filter,
                              deleteTask,
                              createTask,
-                             changeFilter,
-                             changeTaskStatus
+                             changeTaskStatus,
+                             changeTodolistFilter
                          }: TodolistPropsType) => {
     // const {title, tasks} = props   // деструктурирующее присваивание
 
@@ -38,11 +42,11 @@ export const Todolist = ({
         ? <span>Ваш список пуст</span>           // то выводим сообщение и список не генерируем // если не равна                                                                                0, то генерируем список
         : <ul>
             {tasks.map(task => {
-                const deleteTaskHandler = () => deleteTask(task.id)
+                const deleteTaskHandler = () => deleteTask(task.id, todolistId)
                 return (
                     <li key={task.id} className={task.isDone ? 'task-done' : 'task'}>
                         <input
-                            onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)} // элемент с которым произошло событие
+                            onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked, todolistId)} // элемент с которым произошло событие
                             type="checkbox"
                             checked={task.isDone}/>
                         <span>{task.title}</span>
@@ -68,11 +72,11 @@ export const Todolist = ({
     const createTaskOnClickHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle) {
-            createTask(trimmedTitle);
+            createTask(trimmedTitle, todolistId);
         } else {
             setError(true);
         }
-        createTask(taskTitle)
+        createTask(taskTitle, todolistId)
         setTaskTitle('')
     }
     const createTaskOnKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {   // добавление по нажатию на клавишу
@@ -86,12 +90,15 @@ export const Todolist = ({
     }
 
     return (
-        <div>
-            <h3>{title}</h3>
+        <div className={style.todolist}>
+            <h3>
+                {title}
+            </h3>
+
             <div>
                 <input //  получает содержимое локального state(a)
                     value={taskTitle}
-                    placeholder='max length is 15 charters'
+                    placeholder='max length is 15 charters...'
                     onChange={createTaskOnChangeHandler} //все что польз вводит, поручаем передавать в локальный state
                     onKeyDown={createTaskOnKeyDownHandler} //клавиша нажата, но не отпущена вверх
                     className={error ? 'taskInputError' : ''}
@@ -111,15 +118,15 @@ export const Todolist = ({
                 <Button
                     title={'All'}
                     className={filter === 'all' ? 'filter-btn-active' : ''}
-                    onClickHandler={() => changeFilter('all')}/>
+                    onClickHandler={() => changeTodolistFilter('all', todolistId)}/>
                 <Button
                     title={'Active'}
                     className={filter === 'active' ? 'filter-btn-active' : ''}
-                    onClickHandler={() => changeFilter('active')}/>
+                    onClickHandler={() => changeTodolistFilter('active', todolistId)}/>
                 <Button
                     title={'Completed'}
                     className={filter === 'completed' ? 'filter-btn-active' : ''}
-                    onClickHandler={() => changeFilter('completed')}/>
+                    onClickHandler={() => changeTodolistFilter('completed', todolistId)}/>
             </div>
         </div>
     )
