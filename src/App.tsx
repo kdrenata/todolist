@@ -47,40 +47,50 @@ function App() {
 //     {id: v1(), title: 'ReactJS', isDone: false},
 // ])
 
-    const deleteTask = (taskId: string, todolistId: string) => {
-        const nextState = {...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)}
+    const deleteTask = (taskId: string, todolistsId: string) => {
+        const nextState = {...tasks, [todolistsId]: tasks[todolistsId].filter(t => t.id !== taskId)}
         setTasks(nextState)
 
     }
 
-    const createTask = (title: string, todolistId: string) => {
+    const createTask = (title: string, todolistsId: string) => {
         const newTask: TaskType = {
             id: v1(),
             title: title,
             isDone: false
         }
-        const nextState: TasksStateType = {...tasks, [todolistId]: [...tasks[todolistId], newTask]}
+        const nextState: TasksStateType = {...tasks, [todolistsId]: [...tasks[todolistsId], newTask]}
         setTasks(nextState)
 
     }
 
-    const changeTaskStatus = (taskId: string, newStatus: boolean, todolistId: string) => {      // реализация задачи смены статуса
+    const changeTaskStatus = (taskId: string, newStatus: boolean, todolistsId: string) => {      // реализация задачи смены статуса
 
         const nextState: TasksStateType = {
             ...tasks,
-            [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, isDone: newStatus} : task)
+            [todolistsId]: tasks[todolistsId].map(task => task.id === taskId ? {...task, isDone: newStatus} : task)
         }
         setTasks(nextState)
 
     }
 
-    const changeTodolistFilter = (newFilterValue: FilterValues, todolistId: string) => {
+    const changeTodolistFilter = (newFilterValue: FilterValues, todolistsId: string) => {
 
         const nextState: Array<TodolistType> = todolists
-            .map(tl => tl.id === todolistId ? {...tl, filter: newFilterValue} : tl)
+            .map(tl => tl.id === todolistsId ? {...tl, filter: newFilterValue} : tl)
         setTodolists(nextState)
     }
 
+    const deleteTodolist = (todolistsId: string) => {
+        const nextState: Array<TodolistType> = todolists.filter(tl => tl.id !== todolistsId)
+            setTodolists(nextState)
+        //
+        delete tasks[todolistsId]
+        //
+        // const nextTasksState = {...tasks}
+        // delete nextTasksState[todolistsId]
+        // setTasks(nextTasksState)
+    }
 // UI: // порядок отображения данных
 
     const todolistsComponents = todolists.map(tl => {
@@ -100,10 +110,13 @@ function App() {
                 title={tl.title}
                 tasks={tasksForTodolist}
                 filter={tl.filter}
+
                 deleteTask={deleteTask}
                 createTask={createTask}
                 changeTaskStatus={changeTaskStatus}
+
                 changeTodolistFilter={changeTodolistFilter}
+                deleteTodolist={deleteTodolist}
             />
         )
     })

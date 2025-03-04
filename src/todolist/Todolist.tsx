@@ -13,6 +13,7 @@ type TodolistPropsType = {          // тип, который описывает
     createTask: (title: string, todolistId: string) => void;
     changeTaskStatus: (taskId: string, newStatus: boolean, todolistId: string) => void;
     changeTodolistFilter: (newFilterValue: FilterValues, todolistId: string) => void;
+    deleteTodolist: (todolistsId: string) => void
 }
 
 export type TaskType = {
@@ -29,7 +30,8 @@ export const Todolist = ({
                              deleteTask,
                              createTask,
                              changeTaskStatus,
-                             changeTodolistFilter
+                             changeTodolistFilter,
+                             deleteTodolist
                          }: TodolistPropsType) => {
     // const {title, tasks} = props   // деструктурирующее присваивание
 
@@ -93,6 +95,7 @@ export const Todolist = ({
         <div className={style.todolist}>
             <h3>
                 {title}
+                <Button title='x' onClickHandler={() => deleteTodolist(todolistId)}/>
             </h3>
 
             <div>
