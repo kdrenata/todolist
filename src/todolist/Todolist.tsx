@@ -1,8 +1,8 @@
-import {Button} from "../Button.tsx";
+import {Button} from "./Button.tsx";
 import {FilterValues} from "../App.tsx";
 import style from './Todolist.module.css'
-import {AddItemForm} from "../AddItemForm.tsx";
-import {EditableSpan} from "../EditableSpan.tsx";
+import {AddItemForm} from "./AddItemForm.tsx";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 type TodolistPropsType = {          // тип, который описывает пропсы компонента тудулист
     todolistId: string;

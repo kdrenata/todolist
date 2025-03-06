@@ -11,7 +11,9 @@ export const EditableSpan = ({title, changeTitle}: EditableSpan) => {
     const [value, setValue] = useState(title)
 
 
-    const onEditeMode = () => setIsEditMode(true)
+    const onEditeMode = () => {
+        setIsEditMode(true)
+    }
     const offEditeMode = () => {
         setIsEditMode(false)
         changeTitle(value)

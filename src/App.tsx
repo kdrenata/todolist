@@ -2,7 +2,7 @@ import './App.css'
 import {TaskType, Todolist} from "./todolist/Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
-import {AddItemForm} from "./AddItemForm.tsx";
+import {AddItemForm} from "./todolist/AddItemForm.tsx";
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
@@ -154,7 +154,7 @@ function App() {
 
     return (
         <div className="app">
-            <AddItemForm createItem={creatTodolist} maxTitleLength={15}/>
+            <AddItemForm createItem={creatTodolist} maxTitleLength={10}/>
             {todolistsComponents}
         </div>
     )
