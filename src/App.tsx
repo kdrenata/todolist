@@ -3,6 +3,21 @@ import {TaskType, Todolist} from "./todolist/Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./todolist/AddItemForm.tsx";
+import {NavButton} from "./todolist/NavButton.ts";
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from "@mui/material/Container";
+import Grid2 from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import {ThemeProvider, createTheme} from "@mui/material/styles";
+import {CssBaseline} from "@mui/material";
+import Switch from '@mui/material/Switch';
+
+
+
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
@@ -29,7 +44,7 @@ function App() {
     const [tasks, setTasks] = useState<TasksStateType>({
         [todolistId_1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'JavaScript', isDone: true},
             {id: v1(), title: 'ReactJS', isDone: false}
         ],
         [todolistId_2]: [
@@ -92,7 +107,7 @@ function App() {
 
     const deleteTodolist = (todolistsId: string) => {
         const nextState: Array<TodolistType> = todolists.filter(tl => tl.id !== todolistsId)
-            setTodolists(nextState)
+        setTodolists(nextState)
         //
         delete tasks[todolistsId]
         //
@@ -131,31 +146,73 @@ function App() {
         }
 
         return (
-            <Todolist
-                key={tl.id}
-                todolistId={tl.id}
-                title={tl.title}
-                tasks={tasksForTodolist}
-                filter={tl.filter}
+            <Grid2 key={tl.id}>
+                <Paper
+                    sx={{p: '15px'}}
+                    elevation={8}>
+                    <Todolist
+                        todolistId={tl.id}
+                        title={tl.title}
+                        tasks={tasksForTodolist}
+                        filter={tl.filter}
 
-                deleteTask={deleteTask}
-                createTask={createTask}
-                changeTaskStatus={changeTaskStatus}
+                        deleteTask={deleteTask}
+                        createTask={createTask}
+                        changeTaskStatus={changeTaskStatus}
 
-                changeTodolistFilter={changeTodolistFilter}
-                deleteTodolist={deleteTodolist}
-                changeTaskTitle={changeTaskTitle}
-                changeTodolistTitle={changeTodolistTitle}
-
-            />
+                        changeTodolistFilter={changeTodolistFilter}
+                        deleteTodolist={deleteTodolist}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={changeTodolistTitle}
+                    />
+                </Paper>
+            </Grid2>
         )
     })
 
+    const [darkMode, setDarkMode] = useState(false)
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#007bb2'
+            },
+            secondary: {
+                main: '#ab003c',
+            },
+            mode: darkMode ? 'dark' : 'light',
+        },
+        typography: {
+            fontFamily: '"Playfair Display", serif',
+        },
+    })
 
     return (
         <div className="app">
-            <AddItemForm createItem={creatTodolist} maxTitleLength={10}/>
-            {todolistsComponents}
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <AppBar position="static">
+                    <Toolbar sx={{justifyContent: 'space-between'}}>
+                        <IconButton color="inherit">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Box>
+                            <NavButton>Sign in</NavButton>
+                            <NavButton>Sign up</NavButton>
+                            <NavButton background={theme.palette.primary.light}>Faq</NavButton>
+                            <Switch onChange={() => setDarkMode(!darkMode)}/>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                <Container>
+                    <Grid2 container sx={{p: '25px 0'}}>
+                        <AddItemForm createItem={creatTodolist} maxTitleLength={15}/>
+                    </Grid2>
+                    <Grid2 container spacing={4}>
+                        {todolistsComponents}
+                    </Grid2>
+                </Container>
+            </ThemeProvider>
         </div>
     )
 
