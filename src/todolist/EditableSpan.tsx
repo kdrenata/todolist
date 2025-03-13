@@ -1,5 +1,6 @@
 import {useState} from "react";
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 
 
 type EditableSpan = {
@@ -22,12 +23,16 @@ export const EditableSpan = ({title, changeTitle}: EditableSpan) => {
     return (
         isEditMode
             ? <TextField
-            variant="standard"
-            value={value}
-            autoFocus={isEditMode}
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={offEditeMode}
+                variant="standard"
+                value={value}
+                autoFocus={isEditMode}
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={offEditeMode}
             />
-            : <span onDoubleClick={onEditeMode}>{title}</span>
+            : <Box component='span'
+                // sx={{color: 'red'}}
+                onDoubleClick={onEditeMode}>
+                {title}
+            </Box>
     )
 }

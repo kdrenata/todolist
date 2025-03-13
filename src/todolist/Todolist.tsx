@@ -8,7 +8,7 @@ import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem";
-import DeleteIcon from '@mui/icons-material/Delete';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Checkbox from '@mui/material/Checkbox';
 import Box from "@mui/material/Box";
 import Typography from '@mui/material/Typography';
@@ -64,11 +64,12 @@ export const Todolist = ({
                 return (
                     <ListItem
                         disablePadding
+                        divider
                         sx={getListItemSx(task.isDone)}
                         key={task.id}>
                         <Box>
                             <Checkbox
-                                size="small"
+                                size="medium"
                                 checked={task.isDone}
                                 onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked, todolistId)}/>
 
@@ -76,9 +77,9 @@ export const Todolist = ({
                         </Box>
                         <IconButton
                             // color='primary'
-                            size='small'
+                            size='medium'
                             onClick={deleteTaskHandler}>
-                            <DeleteIcon
+                            <HighlightOffOutlinedIcon
                                 fontSize='inherit'/>
                         </IconButton>
 
@@ -113,11 +114,11 @@ return (
         <Typography
             variant='h6'
             textAlign='center'
-            sx={{p:'10px', fontWeight: 700}}>
+            sx={{p:'10px', fontWeight: 700, color: 'primary.main'}}>
             <EditableSpan title={title} changeTitle={changeTodolistTitleCallback}/>
             <IconButton
                 size='small'>
-                <DeleteIcon
+                <HighlightOffOutlinedIcon
                     fontSize='inherit'
                     onClick={deleteTodolistHandler}/>
             </IconButton>

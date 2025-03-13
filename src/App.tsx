@@ -175,10 +175,10 @@ function App() {
     const theme = createTheme({
         palette: {
             primary: {
-                main: '#007bb2'
+                main: '#2196f3'
             },
             secondary: {
-                main: '#ab003c',
+                main: '#3f51b5',
             },
             mode: darkMode ? 'dark' : 'light',
         },
@@ -199,7 +199,7 @@ function App() {
                         <Box>
                             <NavButton>Sign in</NavButton>
                             <NavButton>Sign up</NavButton>
-                            <NavButton background={theme.palette.primary.light}>Faq</NavButton>
+                            <NavButton>Faq</NavButton>
                             <Switch onChange={() => setDarkMode(!darkMode)}/>
                         </Box>
                     </Toolbar>

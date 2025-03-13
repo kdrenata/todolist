@@ -1,7 +1,7 @@
 
-import {KeyboardEvent, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {IconButton} from "@mui/material";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import TextField from "@mui/material/TextField";
 
 type Props = {
@@ -28,6 +28,10 @@ export const AddItemForm = ({createItem, maxTitleLength}: Props) => {
             createItemHandler()
         }
     }
+    const changeItemTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false)
+        setItemTitle(e.currentTarget.value)
+    }
 
     return (
         <div>
@@ -36,20 +40,20 @@ export const AddItemForm = ({createItem, maxTitleLength}: Props) => {
                 size="small"
                 value={itemTitle}
                 placeholder={`max length - ${maxTitleLength} charters...`}
-                onChange={(e) => {
-                    error && setError(false)
-                    setItemTitle(e.currentTarget.value)
-                }}  //все что польз вводит, поручаем передавать в локальный state
+                onChange={changeItemTitleHandler}  //все что польз вводит, поручаем передавать в локальный state
                 onKeyDown={createTaskOnKeyDownHandler} //клавиша нажата, но не отпущена вверх
                 error={error}
-                helperText={error && 'Enter valid title'}
-                // className={error ? 'taskInputError' : ''}
-            />
+                helperText={error && 'Enter valid title'}/>
+                {/*// className={error ? 'taskInputError' : ''}*/}
+
             <IconButton
+                size='large'
+                sx={{p: '8px 0 0 10px'}}
                 disabled={!itemTitle || itemTitle.length > 15}
                 onClick={createItemHandler}
+
             >
-                <AddCircleOutlineIcon/>
+                <AddCircleOutlineOutlinedIcon/>
             </IconButton>
             {itemTitle && itemTitle.length <= maxTitleLength && <div>{`max title length is ${maxTitleLength} charters`}</div>}
             {itemTitle.length > maxTitleLength && <div style={{color: '#cd2828'}}>title is to long</div>}

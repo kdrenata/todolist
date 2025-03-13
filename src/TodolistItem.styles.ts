@@ -5,7 +5,8 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
     justifyContent: 'space-between',
     fontWeight: 'bold',
     p: '0',
-    color: isDone ? 'grey' : 'black',
+    color: isDone ? 'gray' : '#2196f3',
+    fontSize: isDone ? '16px' : '18px',
     textDecorationLine: isDone ? 'line-through' : 'none'
 
 })
