@@ -45,12 +45,18 @@ function App() {
         [todolistId_1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JavaScript', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false}
+            {id: v1(), title: 'TypeScript', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: true},
+            {id: v1(), title: 'Redux-Toolkit', isDone: false},
+            {id: v1(), title: 'RTK Query', isDone: false}
         ],
         [todolistId_2]: [
             {id: v1(), title: 'Bread', isDone: true},
             {id: v1(), title: 'Meat', isDone: true},
-            {id: v1(), title: 'Milk', isDone: false}
+            {id: v1(), title: 'Milk', isDone: false},
+            {id: v1(), title: 'Vegetables', isDone: false},
+            {id: v1(), title: 'Fruits', isDone: true},
+            {id: v1(), title: 'Nuts', isDone: false}
         ]
     })
 
