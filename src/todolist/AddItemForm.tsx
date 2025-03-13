@@ -36,7 +36,8 @@ export const AddItemForm = ({createItem, maxTitleLength}: Props) => {
     return (
         <div>
             <TextField //  получает содержимое локального state(a)
-                variant="outlined"
+                variant="standard"
+                // sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
                 size="small"
                 value={itemTitle}
                 placeholder={`max length - ${maxTitleLength} charters...`}
@@ -48,7 +49,7 @@ export const AddItemForm = ({createItem, maxTitleLength}: Props) => {
 
             <IconButton
                 size='large'
-                sx={{p: '8px 0 0 10px'}}
+                sx={{p: '8px 0 0 90px'}}
                 disabled={!itemTitle || itemTitle.length > 15}
                 onClick={createItemHandler}
 

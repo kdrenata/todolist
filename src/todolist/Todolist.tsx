@@ -4,7 +4,7 @@ import {AddItemForm} from "./AddItemForm.tsx";
 import {EditableSpan} from "./EditableSpan.tsx";
 import {getListItemSx} from "../TodolistItem.styles.ts";
 
-import Button from "@mui/material/Button"
+
 import IconButton from "@mui/material/IconButton"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem";
@@ -12,6 +12,8 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Checkbox from '@mui/material/Checkbox';
 import Box from "@mui/material/Box";
 import Typography from '@mui/material/Typography';
+import {FilterButton} from "./FilterButton.ts";
+import {useState} from "react";
 
 
 type TodolistPropsType = {          // тип, который описывает пропсы компонента тудулист
@@ -80,6 +82,7 @@ export const Todolist = ({
                             size='medium'
                             onClick={deleteTaskHandler}>
                             <HighlightOffOutlinedIcon
+                                sx={{color: 'darkgray'}}
                                 fontSize='inherit'/>
                         </IconButton>
 
@@ -109,6 +112,11 @@ const changeTodolistTitleCallback = (newTitle: string) => {
 const deleteTodolistHandler = () => {
     deleteTodolist(todolistId)
 }
+const [activeFilter, setActiveFilter] = useState(filter || "all");
+const handleFilterChange = (newFilter: FilterValues) => {
+    setActiveFilter(newFilter);
+    changeTodolistFilter(newFilter, todolistId);
+};
 return (
     <div className={style.todolist}>
         <Typography
@@ -119,6 +127,7 @@ return (
             <IconButton
                 size='small'>
                 <HighlightOffOutlinedIcon
+                    sx={{color: "#2196f3", ml: '5px'}}
                     fontSize='inherit'
                     onClick={deleteTodolistHandler}/>
             </IconButton>
@@ -127,30 +136,33 @@ return (
         {tasksList}
 
         <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Button
+            <FilterButton
+                background={activeFilter === "all" ? "#3f51b5" : "#2196f3"}
                 variant="contained"
                 size="small"
                 disableElevation
-                onClick={() => changeTodolistFilter("all", todolistId)}
-                color={filter === "all" ? "secondary" : "primary"}>
+                onClick={() => handleFilterChange("all")}
+                color={activeFilter  === "all" ? "secondary" : "primary"}>
                 All
-            </Button>
-            <Button
+            </FilterButton>
+            <FilterButton
+                background={activeFilter === "active" ? "#3f51b5" : "#2196f3"}
                 variant="contained"
                 size="small"
                 disableElevation
-                onClick={() => changeTodolistFilter('active', todolistId)}
-                color={filter === "active" ? "secondary" : "primary"}>
+                onClick={() => handleFilterChange('active')}
+                color={activeFilter  === "active" ? "secondary" : "primary"}>
                 Active
-            </Button>
-            <Button
+            </FilterButton>
+            <FilterButton
+                background={activeFilter === "completed" ? "#3f51b5" : "#2196f3"}
                 variant="contained"
                 size="small"
                 disableElevation
-                onClick={() => changeTodolistFilter('completed', todolistId)}
-                color={filter === "completed" ? "secondary" : "primary"}>
+                onClick={() => handleFilterChange('completed')}
+                color={activeFilter  === "completed" ? "secondary" : "primary"}>
                 Completed
-            </Button>
+            </FilterButton>
         </Box>
     </div>
 )

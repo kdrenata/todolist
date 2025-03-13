@@ -30,7 +30,6 @@ export const EditableSpan = ({title, changeTitle}: EditableSpan) => {
                 onBlur={offEditeMode}
             />
             : <Box component='span'
-                // sx={{color: 'red'}}
                 onDoubleClick={onEditeMode}>
                 {title}
             </Box>
