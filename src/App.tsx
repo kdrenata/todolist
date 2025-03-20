@@ -21,7 +21,7 @@ import Switch from '@mui/material/Switch';
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValues
@@ -68,7 +68,7 @@ function App() {
 //     {id: v1(), title: 'JS', isDone: true},
 //     {id: v1(), title: 'ReactJS', isDone: false},
 // ])
-
+    // tasks CRUD
     const deleteTask = (taskId: string, todolistsId: string) => {
         const nextState = {...tasks, [todolistsId]: tasks[todolistsId].filter(t => t.id !== taskId)}
         setTasks(nextState)
@@ -104,6 +104,7 @@ function App() {
         setTasks(nextState)
     }
 
+    // todolists CRUD
     const changeTodolistFilter = (newFilterValue: FilterValues, todolistsId: string) => {
 
         const nextState: Array<TodolistType> = todolists
@@ -121,7 +122,6 @@ function App() {
         // delete nextTasksState[todolistsId]
         // setTasks(nextTasksState)
     }
-
 
     const creatTodolist = (newTodoTitle: string) => {
         const newTodolistId = v1()
