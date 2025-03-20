@@ -1,6 +1,6 @@
 import './App.css'
 import {TaskType, Todolist} from "./todolist/Todolist.tsx";
-import {useState} from "react";
+import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./todolist/AddItemForm.tsx";
 import {NavButton} from "./todolist/NavButton.ts";
@@ -15,6 +15,12 @@ import Box from "@mui/material/Box";
 import {ThemeProvider, createTheme} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 import Switch from '@mui/material/Switch';
+import {
+    ChangeTodolistFilterAC,
+    ChangeTodolistTitleAC, CreateTodolistAC,
+    DeleteTodolistAC,
+    todolistsReducer
+} from "./model/todolists-reducer.ts";
 
 
 
@@ -37,10 +43,22 @@ function App() {
     const todolistId_1 = v1()
     const todolistId_2 = v1()
 
-    const [todolists, setTodolists] = useState<Array<TodolistType>>([
+    // const [todolists, setTodolists] = useState<Array<TodolistType>>([
+    //     {id: todolistId_1, title: 'What to learn', filter: 'all'},
+    //     {id: todolistId_2, title: 'What to buy', filter: 'all'},
+    // ])
+
+    const initState: Array<TodolistType> = [
         {id: todolistId_1, title: 'What to learn', filter: 'all'},
         {id: todolistId_2, title: 'What to buy', filter: 'all'},
-    ])
+    ]
+
+    const [todolists, dispatchTodolists ] = useReducer(    // в useReducer передаем стартовое состояние initState[...] и функцию todolistsReducer, которая отвечает за логику изменения нашего стартового состояния
+        todolistsReducer,                                   // получаем новое состояние в переменной todolists и также у нас есть функция по изменению стейта dispatchTodolists
+        initState
+    )
+
+
     const [tasks, setTasks] = useState<TasksStateType>({
         [todolistId_1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -105,38 +123,41 @@ function App() {
     }
 
     // todolists CRUD
-    const changeTodolistFilter = (newFilterValue: FilterValues, todolistsId: string) => {
+    const deleteTodolist = (todolistsId: string) => {
+        // const nextState: Array<TodolistType> = todolists.filter(tl => tl.id !== todolistsId)
+        // setTodolists(nextState)
+        dispatchTodolists(DeleteTodolistAC(todolistsId)) // наш action creator сформирует объект action и задеспатчит его => после этого выполнится обновление стейта
 
-        const nextState: Array<TodolistType> = todolists
-            .map(tl => tl.id === todolistsId ? {...tl, filter: newFilterValue} : tl)
-        setTodolists(nextState)
+        const nextTasksState = {...tasks}
+        delete nextTasksState[todolistsId]
+        setTasks(nextTasksState)
     }
 
-    const deleteTodolist = (todolistsId: string) => {
-        const nextState: Array<TodolistType> = todolists.filter(tl => tl.id !== todolistsId)
-        setTodolists(nextState)
-        //
-        delete tasks[todolistsId]
-        //
-        // const nextTasksState = {...tasks}
-        // delete nextTasksState[todolistsId]
-        // setTasks(nextTasksState)
+    const changeTodolistFilter = (newFilterValue: FilterValues, todolistsId: string) => {
+        // const nextState: Array<TodolistType> = todolists
+        //     .map(tl => tl.id === todolistsId ? {...tl, filter: newFilterValue} : tl)
+        // setTodolists(nextState)
+        dispatchTodolists(ChangeTodolistFilterAC({id: todolistsId, filter: newFilterValue}))
+    }
+
+    const changeTodolistTitle = (newTitle: string, todolistsId: string) => {
+        // const nextState: Array<TodolistType> = todolists
+        //     .map(tl => tl.id === todolistsId ? {...tl, title: newTitle} : tl)
+        // setTodolists(nextState)
+        dispatchTodolists(ChangeTodolistTitleAC({id: todolistsId, title: newTitle}))
     }
 
     const creatTodolist = (newTodoTitle: string) => {
         const newTodolistId = v1()
-        const nextState: Array<TodolistType> = [...todolists, {id: newTodolistId, title: newTodoTitle, filter: 'all'}]
-        setTodolists(nextState)
+        dispatchTodolists(CreateTodolistAC({id: newTodolistId, title: newTodoTitle}))
+        // const nextState: Array<TodolistType> = [...todolists, {id: newTodolistId, title: newTodoTitle, filter: 'all'}]
+        // setTodolists(nextState)
 
         const nextTasksState: TasksStateType = {...tasks, [newTodolistId]: []}
         setTasks(nextTasksState)
     }
 
-    const changeTodolistTitle = (newTitle: string, todolistsId: string) => {
-        const nextState: Array<TodolistType> = todolists
-            .map(tl => tl.id === todolistsId ? {...tl, title: newTitle} : tl)
-        setTodolists(nextState)
-    }
+
 
 
 // UI: // порядок отображения данных
